@@ -1,0 +1,67 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+ </head>
+ <script src="./node_modules/axios/dist/axios.min.js"></script>
+ <body style="direction: rtl;">
+    <div style="height: 100vh;" class="center">
+        <div style="background-color:brown; padding:20px; ">
+            <div>
+                <h1></h1>
+                <hr>
+                <h3>اليميل</h3>
+                <input type="text">
+
+                <h3>كلمة السر</h3>
+                <input type="text">
+            </div>
+        </div>
+    </div>
+ </body>
+
+
+ <script>
+    
+    axios.post('https://reqres.in/api/login', {
+        "email": "charles.morris@reqres.in",
+        "password": "pistol"
+     })
+      .then(function (response) {
+        let token = response.data.token
+        localStorage.setItem("token", token)
+        console.log("Token Received: ", token)
+        createNewUser()
+        
+      })
+
+
+
+      function createNewUser()
+      {
+        let token = localStorage.getItem("token")
+        let config = {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+          }
+          axios.post('https://reqres.in/api/users', {
+            "name": "faka",
+            "job": "leader"
+        },config)
+          .then(function (response) {
+            console.log(response)
+            
+          })
+      }
+ </script>
+ </html>
